@@ -102,6 +102,18 @@ ScottList >> isNil [
     caseCons: [:_ :__ | false]
 ]
 
+ScottList >> filter: f [
+  "FILTER = λf l. l NIL (λh t. IF (f h) (CONS h (FILTER f t)) (FILTER f t))"
+
+  ^self
+    caseNil: [self class makeNil]
+    caseCons: [:h :t |
+      (f value: h)
+        ifTrue: [self class makeCons: h with: (t filter: f)]
+        ifFalse: [t filter: f]
+    ]
+]
+
 ScottList >> toMaybe [
   "TOMAYBE = λl. l NOTHING (λh t. JUST h)"
 

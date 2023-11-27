@@ -103,3 +103,18 @@ ScottListTest >> testToMaybe [
     assert: list toMaybe isJust;
     assert: list toMaybe fromJust = 1
 ]
+
+ScottListTest >> testFilter [
+
+  | list |
+  list := ScottList makeNil.
+  self assert: (list filter: [:x | x > 1]) isNil.
+
+  list := ScottList 
+    makeCons: 1 with: (ScottList 
+      makeCons: 2 with: (ScottList makeNil)).
+  self 
+    assert: (list filter: [:x | x > 1]) head = 2;
+    assert: (list filter: [:x | x > 1]) tail isNil;
+    assert: (list filter: [:x | x > 2]) isNil
+]
