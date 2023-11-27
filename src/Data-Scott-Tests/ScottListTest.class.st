@@ -89,3 +89,17 @@ ScottListTest >> testFixFoldl [
         makeCons: 3 with: ScottList makeNil)).
   self assert: (list fixFoldl: append into: '') equals: '123'.
 ]
+
+ScottListTest >> testToMaybe [
+
+  | list |
+  list := ScottList makeNil.
+  self assert: list toMaybe isNothing.
+
+  list := ScottList 
+    makeCons: 1 with: (ScottList 
+      makeCons: 2 with: (ScottList makeNil)).
+  self 
+    assert: list toMaybe isJust;
+    assert: list toMaybe fromJust = 1
+]

@@ -27,3 +27,12 @@ ScottMaybeTest >> testFromMaybe [
     assert: ((ScottMaybe makeJust: 1) fromMaybe: 2) = 1;
     assert: ((ScottMaybe makeNothing) fromMaybe: 2) = 2
 ]
+
+ScottMaybeTest >> testToList [
+
+  self
+    assert: (ScottMaybe makeNothing) toList isNil;
+    deny: (ScottMaybe makeJust: 1) toList isNil;
+    assert: (ScottMaybe makeJust: 1) toList tail isNil;
+    assert: (ScottMaybe makeJust: 1) toList head = 1
+]

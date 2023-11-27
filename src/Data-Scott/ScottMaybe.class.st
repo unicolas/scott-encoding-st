@@ -56,6 +56,14 @@ ScottMaybe >> fromMaybe: default [
   ^self caseNothing: [default] caseJust: [:j | j]
 ]
 
+ScottMaybe >> toList [
+  "TOLIST = λm. m NIL (λx. SINGLETON x)"
+
+  ^self
+    caseNothing: [ScottList makeNil]
+    caseJust: [:x | ScottList makeSingleton: x]
+]
+
 ScottMaybe >> printOn: aStream [
   
   self 

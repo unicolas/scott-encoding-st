@@ -24,6 +24,12 @@ ScottList class >> makeCons: h with: t [
   ^self basicNew initialize: [:_ :c | c value: h value: t]
 ]
 
+ScottList class >> makeSingleton: h [
+  "SINGLETON = λh. CONS h NIL"
+
+  ^self makeCons: h with: self makeNil
+]
+
 ScottList >> caseNil: n caseCons: c [
   "MATCH = ID"
 
@@ -89,10 +95,19 @@ ScottList >> fixFoldl: f into: a [
 ]
 
 ScottList >> isNil [
+  "ISNIL = λl. l TRUE FALSE"
 
   ^self
     caseNil: [true]
     caseCons: [:_ :__ | false]
+]
+
+ScottList >> toMaybe [
+  "TOMAYBE = λl. l NOTHING (λh t. JUST h)"
+
+  ^self
+    caseNil: [ScottMaybe makeNothing]
+    caseCons: [:h :_ | ScottMaybe makeJust: h]
 ]
 
 ScottList >> printOn: aStream [
