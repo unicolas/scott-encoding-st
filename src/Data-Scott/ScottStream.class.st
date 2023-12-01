@@ -7,29 +7,34 @@ Class {
   #category : #'Data-Scott'
 }
 
+{ #category : #'instance creation' }
 ScottStream class >> new [
 
   self error: 'Stream should be created using makeSCons:with:'
 ]
 
+{ #category : #'instance creation' }
 ScottStream class >> makeSCons: h with: t [
   "SCONS = λh t c. c h t"
 
   ^self basicNew initialize: [:c | c value: h value: t]
 ]
 
+{ #category : #projecting }
 ScottStream >> head [
   "HEAD = λs. s (λh t. h)"
 
   ^self id value: [:h :_ | h]
 ]
 
+{ #category : #projecting }
 ScottStream >> tail [
   "TAIL = λs. s (λh t. t (λa. a))"
 
   ^self id value: [:_ :t | t value: [:force | force]]
 ]
 
+{ #category : #producing }
 ScottStream class >> iterate: f from: a [
   "ITERATE = λf a. SCONS a (λd. d (ITERATE f (f a)))"
 
@@ -38,6 +43,7 @@ ScottStream class >> iterate: f from: a [
   ]
 ]
 
+{ #category : #producing }
 ScottStream class >> fixIterate: f from: a [
   "ITERATE′ = Y″ (λi f a. SCONS a (λd. d (i f (f a))))"
 
@@ -50,6 +56,7 @@ ScottStream class >> fixIterate: f from: a [
   ]) value: f value: a
 ]
 
+{ #category : #consuming }
 ScottStream >> take: n [
   
   ^(n < 1)
@@ -57,6 +64,7 @@ ScottStream >> take: n [
     ifFalse: [ScottList makeCons: self head with: (self tail take: n - 1)]
 ]
 
+{ #category : #combining }
 ScottStream >> interleave: s [
   "INTERLEAVE = λs1 s2. SCONS (HEAD s1) (λd. d (INTERLEAVE s2 (TAIL s1)))"
 
@@ -65,6 +73,7 @@ ScottStream >> interleave: s [
   ]
 ]
 
+{ #category : #combining }
 ScottStream >> fixInterleave: s [
   "INTERLEAVE′ = Y″ (λi s1 s2. SCONS (HEAD s1) (λd. d (i s2 (TAIL s1))))"
 

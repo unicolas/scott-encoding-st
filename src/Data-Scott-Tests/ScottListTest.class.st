@@ -4,6 +4,7 @@ Class {
   #category : #'Data-Scott-Tests'
 }
 
+{ #category : #tests }
 ScottListTest >> testHead [
 
   self
@@ -11,6 +12,7 @@ ScottListTest >> testHead [
     should: [ScottList makeNil head] raise: Error
 ]
 
+{ #category : #tests }
 ScottListTest >> testTail [
 
   self
@@ -18,6 +20,7 @@ ScottListTest >> testTail [
     should: [ScottList makeNil tail] raise: Error
 ]
 
+{ #category : #tests }
 ScottListTest >> testFoldr [
 
   | list append |
@@ -36,6 +39,7 @@ ScottListTest >> testFoldr [
   self assert: (list foldr: append into: '') equals: '321'
 ]
 
+{ #category : #tests }
 ScottListTest >> testFoldl [
 
   | list append |
@@ -54,6 +58,7 @@ ScottListTest >> testFoldl [
   self assert: (list foldl: append into: '') equals: '123'.
 ]
 
+{ #category : #tests }
 ScottListTest >> testFixFoldr [
 
   | list append |
@@ -72,6 +77,7 @@ ScottListTest >> testFixFoldr [
   self assert: (list fixFoldr: append into: '') equals: '321'
 ]
 
+{ #category : #tests }
 ScottListTest >> testFixFoldl [
 
   | list append |
@@ -90,6 +96,7 @@ ScottListTest >> testFixFoldl [
   self assert: (list fixFoldl: append into: '') equals: '123'.
 ]
 
+{ #category : #tests }
 ScottListTest >> testToMaybe [
 
   | list |
@@ -104,6 +111,7 @@ ScottListTest >> testToMaybe [
     assert: list toMaybe fromJust = 1
 ]
 
+{ #category : #tests }
 ScottListTest >> testFilter [
 
   | list |

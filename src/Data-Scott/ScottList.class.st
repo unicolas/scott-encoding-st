@@ -7,35 +7,41 @@ Class {
   #category : #'Data-Scott'
 }
 
+{ #category : #'instance creation' }
 ScottList class >> new [
 
   self error: 'List should be created using makeNil or makeCons:with:'
 ]
 
+{ #category : #'instance creation' }
 ScottList class >> makeNil [
   "NIL = λn c. n"
 
   ^self basicNew initialize: [:n :_ | n]
 ]
 
+{ #category : #'instance creation' }
 ScottList class >> makeCons: h with: t [
   "CONS = λh t n c. c h t"
 
   ^self basicNew initialize: [:_ :c | c value: h value: t]
 ]
 
+{ #category : #'instance creation' }
 ScottList class >> makeSingleton: h [
   "SINGLETON = λh. CONS h NIL"
 
   ^self makeCons: h with: self makeNil
 ]
 
+{ #category : #'case analysis' }
 ScottList >> caseNil: n caseCons: c [
   "MATCH = ID"
 
   ^(self id value: n value: c) value
 ]
 
+{ #category : #projecting }
 ScottList >> head [
   "HEAD = λl. l ⊥ (λh t. h)"
 
@@ -44,6 +50,7 @@ ScottList >> head [
     caseCons: [:h :_ | h]
 ]
 
+{ #category : #projecting }
 ScottList >> tail [
   "TAIL = λl. l ⊥ (λh t. t)"
 
@@ -52,6 +59,7 @@ ScottList >> tail [
     caseCons: [:_ :t | t]
 ]
 
+{ #category : #reducing }
 ScottList >> foldr: f into: a [
   "FOLDR = λf a l. l a (λh t. f h (FOLDR f a t))"
 
@@ -60,6 +68,7 @@ ScottList >> foldr: f into: a [
     caseCons: [:h :t | f value: h value: (t foldr: f into: a)]
 ]
 
+{ #category : #reducing }
 ScottList >> foldl: f into: a [
   "FOLDL = λf a l. l a (λh t. FOLDL f (f a h) t)"
 
@@ -68,6 +77,7 @@ ScottList >> foldl: f into: a [
     caseCons: [:h :t | t foldl: f into: (f value: a value: h)]
 ]
 
+{ #category : #reducing }
 ScottList >> fixFoldr: f into: a [
   "FOLDR′ = Y″ (λr f a l. l a (λh t. f h (r f a t)))"
 
@@ -81,6 +91,7 @@ ScottList >> fixFoldr: f into: a [
   ]) value: f value: self value: a
 ]
 
+{ #category : #reducing }
 ScottList >> fixFoldl: f into: a [
   "FOLDL′ = Y″ (λr f a l. l a (λh t. r f (f a h) t))"
 
@@ -94,6 +105,7 @@ ScottList >> fixFoldl: f into: a [
   ]) value: f value: a value: self
 ]
 
+{ #category : #testing }
 ScottList >> isNil [
   "ISNIL = λl. l TRUE FALSE"
 
@@ -102,6 +114,7 @@ ScottList >> isNil [
     caseCons: [:_ :__ | false]
 ]
 
+{ #category : #filtering }
 ScottList >> filter: f [
   "FILTER = λf l. l NIL (λh t. IF (f h) (CONS h (FILTER f t)) (FILTER f t))"
 
@@ -114,6 +127,7 @@ ScottList >> filter: f [
     ]
 ]
 
+{ #category : #converting }
 ScottList >> toMaybe [
   "TOMAYBE = λl. l NOTHING (λh t. JUST h)"
 
@@ -122,6 +136,7 @@ ScottList >> toMaybe [
     caseCons: [:h :_ | ScottMaybe makeJust: h]
 ]
 
+{ #category : #printing }
 ScottList >> printOn: aStream [
   
   aStream nextPut: $[.
@@ -134,6 +149,7 @@ ScottList >> printOn: aStream [
   aStream nextPut: $].
 ]
 
+{ #category : #printing }
 ScottList >> printPrepended: s on: aStream [
 
     self 

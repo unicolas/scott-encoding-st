@@ -4,6 +4,7 @@ Class {
   #category : #'Data-Scott-Tests'
 }
 
+{ #category : #tests }
 ScottStreamTest >> testIterate [
 
   | stream |
@@ -21,6 +22,7 @@ ScottStreamTest >> testIterate [
     assert: stream tail tail tail head equals: 4.
 ]
 
+{ #category : #tests }
 ScottStreamTest >> testTake [
 
   | stream append |
@@ -33,6 +35,7 @@ ScottStreamTest >> testTake [
     assert: ((stream take: 5) foldl: append into: '') equals: '12345'.
 ]
 
+{ #category : #tests }
 ScottStreamTest >> testInterleave [
 
   | stream append |
@@ -44,6 +47,7 @@ ScottStreamTest >> testInterleave [
   self assert: ((stream take: 10) foldl: append into: '') equals: '1020304050'.
 ]
 
+{ #category : #tests }
 ScottStreamTest >> testFixInterleave [
 
   | stream append |

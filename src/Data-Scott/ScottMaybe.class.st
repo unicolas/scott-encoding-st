@@ -7,41 +7,48 @@ Class {
   #category : #'Data-Scott'
 }
 
+{ #category : #'instance creation' }
 ScottMaybe class >> new [
 
   self error: 'Maybe should be created using makeNothing or makeJust:'
 ]
 
+{ #category : #'instance creation' }
 ScottMaybe class >> makeNothing [
   "NOTHING = λn j. n"
 
   ^self basicNew initialize: [:n :_ | n]
 ]
 
+{ #category : #'instance creation' }
 ScottMaybe class >> makeJust: a [
   "JUST = λx n j. j x"
 
   ^self basicNew initialize: [:_ :j | j value: a]
 ]
 
+{ #category : #'case analysis' }
 ScottMaybe >> caseNothing: n caseJust: j [
   "MAYBE = ID"
 
   ^(self id value: n value: j) value
 ]
 
+{ #category : #testing }
 ScottMaybe >> isNothing [
   "ISNOTHING = λm. m TRUE FALSE"
 
   ^self caseNothing: [true] caseJust: [:_ | false]
 ]
 
+{ #category : #testing }
 ScottMaybe >> isJust [
   "ISNOTHING = λm. m FALSE TRUE"
 
   ^self isNothing not.
 ]
 
+{ #category : #projecting }
 ScottMaybe >> fromJust [
   "FROMJUST = λm. m ⊥ (λx. x)"
 
@@ -50,12 +57,14 @@ ScottMaybe >> fromJust [
     caseJust: [:j | j]
 ]
 
+{ #category : #projecting }
 ScottMaybe >> fromMaybe: default [
   "FROMMAYBE = λm d. m d (λx. x)"
   
   ^self caseNothing: [default] caseJust: [:j | j]
 ]
 
+{ #category : #converting }
 ScottMaybe >> toList [
   "TOLIST = λm. m NIL (λx. SINGLETON x)"
 
@@ -64,6 +73,7 @@ ScottMaybe >> toList [
     caseJust: [:x | ScottList makeSingleton: x]
 ]
 
+{ #category : #printing }
 ScottMaybe >> printOn: aStream [
   
   self 

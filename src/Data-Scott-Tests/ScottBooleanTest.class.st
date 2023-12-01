@@ -4,6 +4,7 @@ Class {
   #category : #'Data-Scott-Tests'
 }
 
+{ #category : #tests }
 ScottBooleanTest >> testAnd [
 
   self
@@ -13,6 +14,7 @@ ScottBooleanTest >> testAnd [
     assert: (ScottBoolean makeTrue and: ScottBoolean makeTrue) isTrue
 ]
 
+{ #category : #tests }
 ScottBooleanTest >> testOr [
 
   self 
@@ -22,6 +24,7 @@ ScottBooleanTest >> testOr [
     assert: (ScottBoolean makeTrue or: ScottBoolean makeTrue) isTrue
 ]
 
+{ #category : #tests }
 ScottBooleanTest >> testNot [
 
   self

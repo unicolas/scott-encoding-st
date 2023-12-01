@@ -4,6 +4,7 @@ Class {
   #category : #'Data-Scott-Tests'
 }
 
+{ #category : #tests }
 ScottEitherTest >> testIsLeft [
 
   self
@@ -11,6 +12,7 @@ ScottEitherTest >> testIsLeft [
     deny: (ScottEither makeRight: 1) isLeft
 ]
 
+{ #category : #tests }
 ScottEitherTest >> testIsRight [
 
   self
@@ -18,6 +20,7 @@ ScottEitherTest >> testIsRight [
     assert: (ScottEither makeRight: 1) isRight
 ]
 
+{ #category : #tests }
 ScottEitherTest >> testFromLeft [
 
   self
@@ -25,6 +28,7 @@ ScottEitherTest >> testFromLeft [
     assert: ((ScottEither makeRight: 1) fromLeft: 2) = 2
 ]
 
+{ #category : #tests }
 ScottEitherTest >> testFromRight [
 
   self
@@ -32,6 +36,7 @@ ScottEitherTest >> testFromRight [
     assert: ((ScottEither makeRight: 1) fromRight: 2) = 1
 ]
 
+{ #category : #tests }
 ScottEitherTest >> testMaybeLeft [
 
   self
@@ -39,6 +44,7 @@ ScottEitherTest >> testMaybeLeft [
     assert: (ScottEither makeRight: 1) maybeLeft isNothing
 ]
 
+{ #category : #tests }
 ScottEitherTest >> testMaybeRight [
 
   self

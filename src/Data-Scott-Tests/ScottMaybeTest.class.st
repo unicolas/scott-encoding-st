@@ -4,16 +4,19 @@ Class {
   #category : #'Data-Scott-Tests'
 }
 
+{ #category : #tests }
 ScottMaybeTest >> testIsNothing [
 
   self assert: ScottMaybe makeNothing isNothing
 ]
 
+{ #category : #tests }
 ScottMaybeTest >> testIsJust [
 
   self assert: (ScottMaybe makeJust: 1) isJust
 ]
 
+{ #category : #tests }
 ScottMaybeTest >> testfromJust [
 
   self
@@ -21,6 +24,7 @@ ScottMaybeTest >> testfromJust [
     should: [ScottMaybe makeNothing fromJust] raise: Error
 ]
 
+{ #category : #tests }
 ScottMaybeTest >> testFromMaybe [
 
   self
@@ -28,6 +32,7 @@ ScottMaybeTest >> testFromMaybe [
     assert: ((ScottMaybe makeNothing) fromMaybe: 2) = 2
 ]
 
+{ #category : #tests }
 ScottMaybeTest >> testToList [
 
   self
