@@ -38,8 +38,8 @@ ScottStream >> tail [
 ScottStream class >> iterate: f from: a [
   "ITERATE = λf a. SCONS a (λd. d (ITERATE f (f a)))"
 
-  ^ScottStream makeSCons: a with: [:delay |
-    delay value: (ScottStream iterate: f from: (f value: a))
+  ^self makeSCons: a with: [:delay |
+    delay value: (self iterate: f from: (f value: a))
   ]
 ]
 
@@ -49,7 +49,7 @@ ScottStream class >> fixIterate: f from: a [
 
   ^(Fix rec2: [:iterate |
     [:f1 :a1 |
-      ScottStream makeSCons: a1 with: [:delay |
+      self makeSCons: a1 with: [:delay |
         delay value: (iterate value: f1 value: (f1 value: a1))
       ]
     ]
@@ -68,7 +68,7 @@ ScottStream >> take: n [
 ScottStream >> interleave: s [
   "INTERLEAVE = λs1 s2. SCONS (HEAD s1) (λd. d (INTERLEAVE s2 (TAIL s1)))"
 
-  ^ScottStream makeSCons: self head with: [:delay |
+  ^self class makeSCons: self head with: [:delay |
     delay value: (s interleave: self tail)
   ]
 ]
@@ -79,7 +79,7 @@ ScottStream >> fixInterleave: s [
 
   ^(Fix rec2: [:interleave |
     [:s1 :s2 |
-      ScottStream makeSCons: s1 head with: [:delay |
+      self class makeSCons: s1 head with: [:delay |
         delay value: (interleave value: s2 value: s1 tail)
       ]
     ]
