@@ -114,6 +114,24 @@ ScottList >> isNil [
     caseCons: [:_ :__ | false]
 ]
 
+{ #category : #testing }
+ScottList >> any: p [
+  "ANY = λp l. l FALSE (λh t. IF (p h) TRUE (ANY p t))"
+
+  ^self
+    caseNil: [false]
+    caseCons: [:h :t | (p value: h) ifTrue: [true] ifFalse: [t any: p]]
+]
+
+{ #category : #testing }
+ScottList >> all: p [
+  "ALL = λp l. l TRUE (λh t. IF (p h) (ALL p t) FALSE)"
+
+  ^self
+    caseNil: [true]
+    caseCons: [:h :t | (p value: h) ifTrue: [t all: p] ifFalse: [false]]
+]
+
 { #category : #filtering }
 ScottList >> filter: f [
   "FILTER = λf l. l NIL (λh t. IF (f h) (CONS h (FILTER f t)) (FILTER f t))"
@@ -159,4 +177,13 @@ ScottList >> printPrepended: s on: aStream [
         aStream print: h.
         t printPrepended: s on: aStream
       ]
+]
+
+{ #category : #transforming }
+ScottList >> map: f [
+  "MAP = λf l. l NIL (λh t. CONS (f h) (MAP f t))"
+
+  ^self
+    caseNil: [self class makeNil]
+    caseCons: [:h :t | self class makeCons: (f value: h) with: (t map: f)]
 ]

@@ -1,128 +1,135 @@
 Class {
   #name : #ScottListTest,
   #superclass : #TestCase,
+  #instVars: [
+    'emptyList',
+    'listWith1',
+    'listWith123'
+  ],
   #category : #'Data-Scott-Tests'
 }
+
+{ #category : #running }
+ScottListTest >> setUp [
+
+	super setUp.
+	emptyList := ScottList makeNil.
+  listWith1 := ScottList makeSingleton: 1.
+  listWith123 := ScottList 
+    makeCons: 1 with: (ScottList 
+      makeCons: 2 with: (ScottList 
+        makeCons: 3 with: ScottList makeNil))
+]
 
 { #category : #tests }
 ScottListTest >> testHead [
 
   self
-    assert: (ScottList makeCons: 1 with: ScottList makeNil) head = 1;
-    should: [ScottList makeNil head] raise: Error
+    assert: listWith1 head = 1;
+    should: [emptyList head] raise: Error
 ]
 
 { #category : #tests }
 ScottListTest >> testTail [
 
   self
-    assert: (ScottList makeCons: 1 with: ScottList makeNil) tail isNil;
-    should: [ScottList makeNil tail] raise: Error
+    assert: listWith1 tail isNil;
+    should: [emptyList tail] raise: Error
 ]
 
 { #category : #tests }
 ScottListTest >> testFoldr [
 
-  | list append |
+  | append |
   append := [:each :acc | acc , each asString].
 
-  list := ScottList makeNil.
-  self assert: (list foldr: append into: '') equals: ''.
-
-  list := ScottList makeCons: 3 with: ScottList makeNil.
-  self assert: (list foldr: append into: '') equals: '3'.
-  
-  list := ScottList 
-    makeCons: 1 with: (ScottList 
-      makeCons: 2 with: (ScottList 
-        makeCons: 3 with: ScottList makeNil)).
-  self assert: (list foldr: append into: '') equals: '321'
+  self
+    assert: (emptyList foldr: append into: '') equals: '';
+    assert: (listWith1 foldr: append into: '') equals: '1';  
+    assert: (listWith123 foldr: append into: '') equals: '321'
 ]
 
 { #category : #tests }
 ScottListTest >> testFoldl [
 
-  | list append |
+  | append |
   append := [:acc :each | acc , each asString].
 
-  list := ScottList makeNil.
-  self assert: (list foldl: append into: '') equals: ''.
-
-  list := ScottList makeCons: 3 with: ScottList makeNil.
-  self assert: (list foldl: append into: '') equals: '3'.
-  
-  list := ScottList 
-    makeCons: 1 with: (ScottList 
-      makeCons: 2 with: (ScottList 
-        makeCons: 3 with: ScottList makeNil)).
-  self assert: (list foldl: append into: '') equals: '123'.
+  self
+    assert: (emptyList foldl: append into: '') equals: '';
+    assert: (listWith1 foldl: append into: '') equals: '1';
+    assert: (listWith123 foldl: append into: '') equals: '123'
 ]
 
 { #category : #tests }
 ScottListTest >> testFixFoldr [
 
-  | list append |
+  | append |
   append := [:each :acc | acc , each asString].
 
-  list := ScottList makeNil.
-  self assert: (list fixFoldr: append into: '') equals: ''.
-
-  list := ScottList makeCons: 3 with: ScottList makeNil.
-  self assert: (list fixFoldr: append into: '') equals: '3'.
-  
-  list := ScottList 
-    makeCons: 1 with: (ScottList 
-      makeCons: 2 with: (ScottList 
-        makeCons: 3 with: ScottList makeNil)).
-  self assert: (list fixFoldr: append into: '') equals: '321'
+  self
+    assert: (emptyList fixFoldr: append into: '') equals: '';
+    assert: (listWith1 fixFoldr: append into: '') equals: '1';
+    assert: (listWith123 fixFoldr: append into: '') equals: '321'
 ]
 
 { #category : #tests }
 ScottListTest >> testFixFoldl [
 
-  | list append |
+  | append |
   append := [:acc :each | acc , each asString].
 
-  list := ScottList makeNil.
-  self assert: (list fixFoldl: append into: '') equals: ''.
-
-  list := ScottList makeCons: 3 with: ScottList makeNil.
-  self assert: (list fixFoldl: append into: '') equals: '3'.
-  
-  list := ScottList 
-    makeCons: 1 with: (ScottList 
-      makeCons: 2 with: (ScottList 
-        makeCons: 3 with: ScottList makeNil)).
-  self assert: (list fixFoldl: append into: '') equals: '123'.
+  self
+    assert: (emptyList fixFoldl: append into: '') equals: '';
+    assert: (listWith1 fixFoldl: append into: '') equals: '1';
+    assert: (listWith123 fixFoldl: append into: '') equals: '123'
 ]
 
 { #category : #tests }
 ScottListTest >> testToMaybe [
 
-  | list |
-  list := ScottList makeNil.
-  self assert: list toMaybe isNothing.
-
-  list := ScottList 
-    makeCons: 1 with: (ScottList 
-      makeCons: 2 with: (ScottList makeNil)).
-  self 
-    assert: list toMaybe isJust;
-    assert: list toMaybe fromJust = 1
+  self
+    assert: emptyList toMaybe isNothing; 
+    assert: listWith123 toMaybe isJust;
+    assert: listWith123 toMaybe fromJust = 1
 ]
 
 { #category : #tests }
 ScottListTest >> testFilter [
 
-  | list |
-  list := ScottList makeNil.
-  self assert: (list filter: [:x | x > 1]) isNil.
-
-  list := ScottList 
-    makeCons: 1 with: (ScottList 
-      makeCons: 2 with: (ScottList makeNil)).
   self 
-    assert: (list filter: [:x | x > 1]) head = 2;
-    assert: (list filter: [:x | x > 1]) tail isNil;
-    assert: (list filter: [:x | x > 2]) isNil
+    assert: (emptyList filter: [:x | x > 1]) isNil;
+    assert: (listWith123 filter: [:x | x > 2]) head = 3;
+    assert: (listWith123 filter: [:x | x > 2]) tail isNil;
+    assert: (listWith123 filter: [:x | x > 3]) isNil
+]
+
+{ #category : #tests }
+ScottListTest >> testMap [
+
+  | append |
+  append := [:acc :each | acc , each asString].
+  
+  self
+    assert: (emptyList map: [:x | x + 1]) isNil;
+    assert: ((listWith123 map: [:x | x + 1]) foldl: append into: '')
+      equals: '234'
+]
+
+{ #category : #tests }
+ScottListTest >> testAny [
+
+  self
+    deny: (emptyList any: [:x | x > 1]);
+    assert: (listWith123 any: [:x | x > 1]);
+    deny: (listWith123 any: [:x | x < 1])
+]
+
+{ #category : #tests }
+ScottListTest >> testAll [
+
+  self
+    assert: (emptyList all: [:x | x > 1]);
+    assert: (listWith123 all: [:x | x > 0]);
+    deny: (listWith123 all: [:x | x > 1])
 ]
