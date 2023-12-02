@@ -56,12 +56,27 @@ ScottStream class >> fixIterate: f from: a [
   ]) value: f value: a
 ]
 
+{ #category : #producing }
+ScottStream class >> repeat: a [
+  "REPEAT = λa. SCONS a (λd. d (REPEAT a))"
+
+  ^self makeSCons: a with: [:delay | delay value: (self repeat: a)]
+]
+
 { #category : #consuming }
 ScottStream >> take: n [
   
   ^(n < 1)
     ifTrue: [ScottList makeNil]
     ifFalse: [ScottList makeCons: self head with: (self tail take: n - 1)]
+]
+
+{ #category : #consuming }
+ScottStream >> drop: n [
+  
+  ^(n < 1)
+    ifTrue: [self]
+    ifFalse: [self tail drop: n - 1]
 ]
 
 { #category : #combining }

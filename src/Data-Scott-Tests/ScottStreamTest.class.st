@@ -58,3 +58,26 @@ ScottStreamTest >> testFixInterleave [
 
   self assert: ((stream take: 10) foldl: append into: '') equals: '1020304050'.
 ]
+
+{ #category : #tests }
+ScottStreamTest >> testDrop [
+
+  | stream |
+  stream := ScottStream iterate: [:x | x + 1] from: 1.
+
+  self
+    assert: (stream drop: 10) head equals: 11;
+    assert: (stream drop: 10) tail head equals: 12.
+]
+
+{ #category : #tests }
+ScottStreamTest >> testRepeat [
+
+  | stream |
+  stream := ScottStream repeat: $X.
+  self
+    assert: stream head equals: $X;
+    assert: stream tail head equals: $X;
+    assert: stream tail tail head equals: $X;
+    assert: stream tail tail tail head equals: $X.
+]
