@@ -4,6 +4,8 @@ Scott-encoded Either
 Class {
   #name : #ScottEither,
   #superclass : #ScottData,
+  #traits : 'TFunctor',
+  #classTraits : 'TFunctor classTrait',
   #category : #'Data-Scott'
 }
 
@@ -106,4 +108,12 @@ ScottEither >> printOn: aStream [
       aStream nextPutAll: 'Right '.
       r printOn: aStream
     ]
+]
+
+{ #category : #mapping }
+ScottEither >> fmap: f [
+
+  ^self
+    caseLeft: [:l | self class makeLeft: l]
+    caseRight: [:r | self class makeRight: (f value: r)]
 ]

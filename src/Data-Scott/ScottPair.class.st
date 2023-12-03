@@ -4,6 +4,8 @@ Scott-encoded Pair
 Class {
   #name : #ScottPair,
   #superclass : #ScottData,
+  #traits : 'TFunctor',
+  #classTraits : 'TFunctor classTrait',
   #category : #'Data-Scott'
 }
 
@@ -42,4 +44,10 @@ ScottPair >> printOn: aStream [
   aStream nextPutAll: ', '.
   self snd printOn: aStream.
   aStream nextPut: $).
+]
+
+{ #category : #mapping }
+ScottPair >> fmap: f [
+
+  ^self class makePair: self fst with: (f value: self snd)
 ]

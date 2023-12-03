@@ -4,6 +4,8 @@ Scott-encoded Maybe
 Class {
   #name : #ScottMaybe,
   #superclass : #ScottData,
+  #traits : 'TFunctor',
+  #classTraits : 'TFunctor classTrait',
   #category : #'Data-Scott'
 }
 
@@ -82,4 +84,12 @@ ScottMaybe >> printOn: aStream [
       aStream nextPutAll: 'Just '.
       j printOn: aStream
     ]
+]
+
+{ #category : #mapping }
+ScottMaybe >> fmap: f [
+
+  ^self
+    caseNothing: [self class makeNothing]
+    caseJust: [:j | self class makeJust: (f value: j)]
 ]

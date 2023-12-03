@@ -100,3 +100,18 @@ ScottStream >> fixInterleave: s [
     ]
   ]) value: self value: s
 ]
+
+{ #category : #transforming }
+ScottStream >> map: f [
+  "MAP = λf s. SCONS (f (HEAD s)) (λd. d (MAP f (TAIL s)))"
+
+  ^self class makeSCons: (f value: self head) with: [:delay |
+    delay value: (self tail map: f)
+  ]
+]
+
+{ #category : #mapping }
+ScottStream >> fmap: f [
+
+  ^self map: f
+]

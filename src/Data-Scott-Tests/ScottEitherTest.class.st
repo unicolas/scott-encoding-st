@@ -51,3 +51,13 @@ ScottEitherTest >> testMaybeRight [
     assert: (ScottEither makeLeft: 1) maybeRight isNothing;
     assert: (ScottEither makeRight: 1) maybeRight fromJust = 1
 ]
+
+{ #category : #tests }
+ScottEitherTest >> testFmap [
+
+  self
+    assert: ((ScottEither makeLeft: 1) fmap: [:x | x + 1]) maybeLeft fromJust 
+      equals: 1;
+    assert: ((ScottEither makeRight: 1) fmap: [:x | x + 1]) maybeRight fromJust 
+      equals: 2
+]

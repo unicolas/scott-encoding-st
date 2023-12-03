@@ -4,6 +4,8 @@ Scott-encoded List
 Class {
   #name : #ScottList,
   #superclass : #ScottData,
+  #traits : 'TFunctor',
+  #classTraits : 'TFunctor classTrait',
   #category : #'Data-Scott'
 }
 
@@ -186,4 +188,10 @@ ScottList >> map: f [
   ^self
     caseNil: [self class makeNil]
     caseCons: [:h :t | self class makeCons: (f value: h) with: (t map: f)]
+]
+
+{ #category : #mapping }
+ScottList >> fmap: f [
+
+  ^self map: f
 ]

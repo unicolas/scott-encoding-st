@@ -41,3 +41,11 @@ ScottMaybeTest >> testToList [
     assert: (ScottMaybe makeJust: 1) toList tail isNil;
     assert: (ScottMaybe makeJust: 1) toList head = 1
 ]
+
+{ #category : #tests }
+ScottMaybeTest >> testFmap [
+
+  self
+    assert: (ScottMaybe makeNothing fmap: [:x | x + 1]) isNothing;
+    assert: ((ScottMaybe makeJust: 1) fmap: [:x | x + 1]) fromJust equals: 2
+]

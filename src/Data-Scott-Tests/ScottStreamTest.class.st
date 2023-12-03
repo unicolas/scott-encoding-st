@@ -81,3 +81,14 @@ ScottStreamTest >> testRepeat [
     assert: stream tail tail head equals: $X;
     assert: stream tail tail tail head equals: $X.
 ]
+
+{ #category : #tests }
+ScottStreamTest >> testMap [
+
+  | stream succ append |
+  succ := [:x | x + 1].
+  append := [:acc :each | acc , each asString].
+  stream := (ScottStream iterate: succ from: 1) fmap: succ.
+  
+  self assert: ((stream take: 5) foldl: append into: '') equals: '23456'
+]
