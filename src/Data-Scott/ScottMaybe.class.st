@@ -93,3 +93,15 @@ ScottMaybe >> fmap: f [
     caseNothing: [self class makeNothing]
     caseJust: [:j | self class makeJust: (f value: j)]
 ]
+
+{ #category : #comparing }
+ScottMaybe >> = m [
+
+  ^self
+    caseNothing: [
+      m caseNothing: [true] caseJust: [:_ | false]
+    ]
+    caseJust: [:x1 |
+      m caseNothing: [false] caseJust: [:x2 | x1 = x2]
+    ]
+]
