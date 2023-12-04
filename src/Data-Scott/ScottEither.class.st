@@ -117,3 +117,15 @@ ScottEither >> fmap: f [
     caseLeft: [:l | self class makeLeft: l]
     caseRight: [:r | self class makeRight: (f value: r)]
 ]
+
+{ #category : #comparing }
+ScottEither >> = e [
+
+  ^self
+    caseLeft: [:l1 |
+      e caseLeft: [:l2 | l1 = l2] caseRight: [:_ | false]
+    ]
+    caseRight: [:r1 |
+      e caseLeft: [:_ | false] caseRight: [:r2 | r1 = r2]
+    ]
+]
