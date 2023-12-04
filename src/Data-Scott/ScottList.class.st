@@ -195,3 +195,15 @@ ScottList >> fmap: f [
 
   ^self map: f
 ]
+
+{ #category : #comparing }
+ScottList >> = l [
+
+  ^self
+    caseNil: [
+      l caseNil: [true] caseCons: [false]
+    ]
+    caseCons: [:h1 :t1 |
+      l caseNil: [false] caseCons: [:h2 :t2 | h1 = h2 and: [t1 = t2]]
+    ]
+]
