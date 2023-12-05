@@ -4,8 +4,8 @@ Scott-encoded List
 Class {
   #name : #ScottList,
   #superclass : #ScottData,
-  #traits : 'TFunctor',
-  #classTraits : 'TFunctor classTrait',
+  #traits : 'TFunctor + TMonoid',
+  #classTraits : 'TFunctor classTrait + TMonoid classTrait',
   #category : #'Data-Scott'
 }
 
@@ -206,4 +206,24 @@ ScottList >> = l [
     caseCons: [:h1 :t1 |
       l caseNil: [false] caseCons: [:h2 :t2 | h1 = h2 and: [t1 = t2]]
     ]
+]
+
+{ #category : #combining }
+ScottList >> append: l [
+
+  ^self
+    caseNil: [l]
+    caseCons: [:h :t | self class makeCons: h with: (t append: l)]
+]
+
+{ #category : #'associative operations' }
+ScottList >> <> a [
+	
+	^self append: a
+]
+
+{ #category : #identity }
+ScottList class >> mempty [
+	
+	^self makeNil
 ]

@@ -75,3 +75,16 @@ ScottEitherTest >> testFmap [
     assert: (l1 fmap: [:x | x + 1]) equals: l1;
     assert: (r1 fmap: [:x | x + 1]) equals: r2
 ]
+
+{ #category : #tests }
+ScottEitherTest >> testMappend [
+
+  self
+    assert: l1 <> l2 equals: l2;
+    assert: l2 <> l1 equals: l1;
+    assert: l1 <> r1 equals: r1;
+    assert: r1 <> l1 equals: r1;
+    assert: r1 <> r2 equals: r1;
+    assert: (l1 <> l2) <> r1 equals: l1 <> (l2 <> r1);
+    assert: (r1 <> r2) <> l1 equals: r1 <> (r2 <> l1)
+]

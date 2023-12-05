@@ -4,7 +4,8 @@ Class {
   #instVars: [
     'emptyList',
     'listWith1',
-    'listWith123'
+    'listWith123',
+    'listWith23'
   ],
   #category : #'Data-Scott-Tests'
 }
@@ -18,7 +19,8 @@ ScottListTest >> setUp [
   listWith123 := ScottList 
     makeCons: 1 with: (ScottList 
       makeCons: 2 with: (ScottList 
-        makeCons: 3 with: ScottList makeNil))
+        makeCons: 3 with: ScottList makeNil)).
+  listWith23 := ScottList makeCons: 2 with: (ScottList makeSingleton: 3)
 ]
 
 { #category : #tests }
@@ -97,9 +99,6 @@ ScottListTest >> testToMaybe [
 { #category : #tests }
 ScottListTest >> testFilter [
 
-  | listWith23 |
-  listWith23 := ScottList makeCons: 2 with: (ScottList makeSingleton: 3).
-
   self 
     assert: (emptyList filter: [:x | x > 1]) isNil;
     assert: (listWith123 filter: [:x | x > 1]) equals: listWith23;
@@ -137,4 +136,24 @@ ScottListTest >> testAll [
     assert: (emptyList all: [:x | x > 1]);
     assert: (listWith123 all: [:x | x > 0]);
     deny: (listWith123 all: [:x | x > 1])
+]
+
+{ #category : #tests }
+ScottListTest >> testAppend [
+
+  self
+    assert: (emptyList append: emptyList) equals: emptyList;
+    assert: (emptyList append: listWith1) equals: listWith1;
+    assert: (listWith1 append: emptyList) equals: listWith1;
+    assert: (listWith1 append: listWith23) equals: listWith123
+]
+
+{ #category : #tests }
+ScottListTest >> testMappend [
+
+  self
+    assert: ScottList mempty <> listWith1 equals: listWith1;
+    assert: listWith1 <> ScottList mempty equals: listWith1;
+    assert: (listWith1 <> emptyList) <> listWith23 
+      equals: listWith1 <> (emptyList <> listWith23)
 ]

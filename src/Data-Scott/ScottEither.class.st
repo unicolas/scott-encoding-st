@@ -4,8 +4,8 @@ Scott-encoded Either
 Class {
   #name : #ScottEither,
   #superclass : #ScottData,
-  #traits : 'TFunctor',
-  #classTraits : 'TFunctor classTrait',
+  #traits : 'TFunctor + TSemigroup',
+  #classTraits : 'TFunctor classTrait + TSemigroup classTrait',
   #category : #'Data-Scott'
 }
 
@@ -128,4 +128,12 @@ ScottEither >> = e [
     caseRight: [:r1 |
       e caseLeft: [:_ | false] caseRight: [:r2 | r1 = r2]
     ]
+]
+
+{ #category : #'associative operations' }
+ScottEither >> <> a [
+
+  ^self
+    caseLeft: [:_ | a]
+    caseRight: [:_ | self]
 ]

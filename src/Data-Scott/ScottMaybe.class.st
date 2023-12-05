@@ -4,8 +4,8 @@ Scott-encoded Maybe
 Class {
   #name : #ScottMaybe,
   #superclass : #ScottData,
-  #traits : 'TFunctor',
-  #classTraits : 'TFunctor classTrait',
+  #traits : 'TFunctor + TMonoid',
+  #classTraits : 'TFunctor classTrait + TMonoid classTrait',
   #category : #'Data-Scott'
 }
 
@@ -104,4 +104,22 @@ ScottMaybe >> = m [
     caseJust: [:x1 |
       m caseNothing: [false] caseJust: [:x2 | x1 = x2]
     ]
+]
+
+{ #category : #'associative operations' }
+ScottMaybe >> <> a [
+  
+  ^self
+    caseNothing: [a]
+    caseJust: [:j1 |
+      a
+        caseNothing: [self]
+        caseJust: [:j2 | self class makeJust: j1 <> j2]
+    ]
+]
+
+{ #category : #identity }
+ScottMaybe class >> mempty [
+  
+  ^self makeNothing
 ]
